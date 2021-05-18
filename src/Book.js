@@ -2,14 +2,17 @@ import React, {Component} from "react";
 
 class Book extends Component {
   render() {
-    const { cover, shelf, title, authors } = this.props
+    const { id, cover, shelf, title, authors, onMoveBook } = this.props
     return (
       <li>
         <div className="book">
           <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: cover }}></div>
             <div className="book-shelf-changer">
-              <select value={shelf}>
+              <select
+                value={shelf}
+                onChange={(event) => onMoveBook(id, event.target.value)}
+              >
                 <option value="move" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>

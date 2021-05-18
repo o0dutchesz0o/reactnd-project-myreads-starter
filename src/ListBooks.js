@@ -3,7 +3,7 @@ import Bookshelf from "./Bookshelf";
 
 class ListBooks extends Component {
   render() {
-    const { books } = this.props
+    const { books, onMoveBook } = this.props
 
     function getShelfBooks(shelfName) {
       return books.filter((book) =>
@@ -25,16 +25,19 @@ class ListBooks extends Component {
               title='Currently Reading'
               shelf='currentlyReading'
               books={currentlyReading}
+              onMoveBook={onMoveBook}
             />
             <Bookshelf
               title='Want to Read'
               shelf='wantToRead'
               books={wantToRead}
+              onMoveBook={onMoveBook}
             />
             <Bookshelf
               title='Read'
               shelf='read'
               books={booksRead}
+              onMoveBook={onMoveBook}
             />
           </div>
         </div>

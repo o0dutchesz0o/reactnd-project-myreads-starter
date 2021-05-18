@@ -24,6 +24,39 @@ class BooksApp extends Component {
       })
   }
 
+  // moveBook = (id, shelf) => {
+  //   BooksAPI.get(id)
+  //     .then((book) => {
+  //       BooksAPI.update(book, shelf)
+  //         .then((book, shelf) => {
+  //           this.setState( (prevState) => ({
+  //             books: prevState.books.map((b) => {
+  //               if (b.id === book.id) {
+  //                 book.shelf = shelf
+  //               }
+  //             })
+  //           }))
+  //         })
+  //     })
+  // }
+ // todo - get to re-render
+  moveBook = (id, shelf) => {
+    BooksAPI.get(id)
+      .then((book) => {
+        BooksAPI.update(book, shelf)
+          .then((book, shelf) => {
+            this.setState( (prevState) => ({
+              books: prevState.books.map((b) => {
+                b.id === book.id ? {
+                  ...b, shelf
+                } : b
+              })
+            }))
+          })
+      })
+  }
+
+
   render() {
     return (
       <div className="app">
@@ -51,6 +84,7 @@ class BooksApp extends Component {
         ) : (
           <ListBooks
             books={this.state.books}
+            onMoveBook={this.moveBook}
           />
         )}
       </div>
