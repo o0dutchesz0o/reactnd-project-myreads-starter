@@ -2,13 +2,14 @@ import React, {Component} from "react";
 
 class Book extends Component {
   render() {
+    const { cover, shelf, title, authors } = this.props
     return (
       <li>
         <div className="book">
           <div className="book-top">
-            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: this.props.cover }}></div>
+            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: cover }}></div>
             <div className="book-shelf-changer">
-              <select value={this.props.shelf}>
+              <select value={shelf}>
                 <option value="move" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
@@ -17,8 +18,8 @@ class Book extends Component {
               </select>
             </div>
           </div>
-          <div className="book-title">{this.props.title}</div>
-          <div className="book-authors">{this.props.authors}</div>
+          <div className="book-title">{title}</div>
+          <div className="book-authors">{authors}</div>
         </div>
       </li>
     )
