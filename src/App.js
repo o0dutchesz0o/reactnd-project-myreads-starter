@@ -49,7 +49,7 @@ class BooksApp extends Component {
 
   render() {
     const { searchQuery, books } = this.state
-    const displayBooks = books.filter((book) => {
+    const displayBooks = searchQuery === '' ? [] : books.filter((book) => {
       return book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             book.authors.toString().toLowerCase().includes(searchQuery.toLowerCase())
     })
