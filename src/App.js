@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import * as BooksAPI from './BooksAPI'
-import './App.css'
+import React, { Component } from 'react';
+import * as BooksAPI from './BooksAPI';
+import './App.css';
 import ListBooks from "./ListBooks";
+import Book from "./Book";
 
 class BooksApp extends Component {
   state = {
@@ -12,7 +13,8 @@ class BooksApp extends Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     books: [],
-    showSearchPage: false
+    showSearchPage: false,
+    searchQuery: ''
   }
 
   componentDidMount() {
@@ -38,7 +40,20 @@ class BooksApp extends Component {
       })
   }
 
+  handleChange = (event) => {
+    const { name, value} = event.target
+    this.setState(() => ({
+      [name] : value
+    }))
+  }
+
   render() {
+    const { searchQuery, books } = this.state
+    const displayBooks = books.filter((book) => {
+      return book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            book.authors.toString().toLowerCase().includes(searchQuery.toLowerCase())
+    })
+
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -54,19 +69,40 @@ class BooksApp extends Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <input type="text" placeholder="Search by title or author"/>
-
+                <input type="text"
+                       name='searchQuery'
+                       value={this.state.searchQuery}
+                       placeholder="Search by title or author"
+                       onChange={this.handleChange}
+                />
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid"></ol>
+              <ol className="books-grid">
+                {displayBooks.map(book => (
+                  <Book
+                    key = {book.id}
+                    id = {book.id}
+                    shelf={book.shelf}
+                    cover={`url(${book.imageLinks.thumbnail})`}
+                    title={book.title}
+                    authors={book.authors}
+                    onMoveBook={this.moveBook}
+                  />
+                ))}
+              </ol>
             </div>
           </div>
         ) : (
-          <ListBooks
-            books={this.state.books}
-            onMoveBook={this.moveBook}
-          />
+          <div>
+            <ListBooks
+              books={this.state.books}
+              onMoveBook={this.moveBook}
+            />
+            <div className="open-search">
+              <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
+            </div>
+          </div>
         )}
       </div>
     )
