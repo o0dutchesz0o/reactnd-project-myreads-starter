@@ -23,14 +23,17 @@ class ListBooks extends Component {
           <div>
             <Bookshelf
               title='Currently Reading'
+              shelf='currentlyReading'
               books={currentlyReading}
             />
             <Bookshelf
               title='Want to Read'
+              shelf='wantToRead'
               books={wantToRead}
             />
             <Bookshelf
               title='Read'
+              shelf='read'
               books={booksRead}
             />
           </div>
