@@ -24,38 +24,19 @@ class BooksApp extends Component {
       })
   }
 
-  // moveBook = (id, shelf) => {
-  //   BooksAPI.get(id)
-  //     .then((book) => {
-  //       BooksAPI.update(book, shelf)
-  //         .then((book, shelf) => {
-  //           this.setState( (prevState) => ({
-  //             books: prevState.books.map((b) => {
-  //               if (b.id === book.id) {
-  //                 book.shelf = shelf
-  //               }
-  //             })
-  //           }))
-  //         })
-  //     })
-  // }
- // todo - get to re-render
   moveBook = (id, shelf) => {
     BooksAPI.get(id)
       .then((book) => {
         BooksAPI.update(book, shelf)
-          .then((book, shelf) => {
-            this.setState( (prevState) => ({
-              books: prevState.books.map((b) => {
-                b.id === book.id ? {
-                  ...b, shelf
-                } : b
-              })
+        .then(
+        BooksAPI.getAll()
+          .then((books) => {
+            this.setState(() => ({
+              books
             }))
-          })
+          }))
       })
   }
-
 
   render() {
     return (
