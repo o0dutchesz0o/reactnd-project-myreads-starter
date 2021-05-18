@@ -6,8 +6,9 @@ class ListBooks extends Component {
     const { books, onMoveBook } = this.props
 
     function getShelfBooks(shelfName) {
-      return books.filter((book) =>
-        book.shelf === shelfName)
+      return books.filter((book) => {
+      return book.shelf === shelfName}
+      )
     }
 
     const currentlyReading = getShelfBooks('currentlyReading')
