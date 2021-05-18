@@ -2,23 +2,18 @@ import React, {Component} from 'react';
 import Bookshelf from "./Bookshelf";
 
 class ListBooks extends Component {
-  getShelfBooks(shelfName) {
-    console.log('retrieving books')
-    this.state.books.filter((book) =>
-      book.shelf === shelfName)
-  }
-
   render() {
     const { books } = this.props
-    const currentlyReading = books.filter((book) =>
-      book.shelf === 'currentlyReading'
-    )
-    const wantToRead = books.filter((book) =>
-      book.shelf === 'wantToRead'
-    )
-    const booksRead = books.filter((book) =>
-      book.shelf === 'read'
-    )
+
+    function getShelfBooks(shelfName) {
+      return books.filter((book) =>
+        book.shelf === shelfName)
+    }
+
+    const currentlyReading = getShelfBooks('currentlyReading')
+    const wantToRead = getShelfBooks('wantToRead')
+    const booksRead = getShelfBooks('read')
+
     return (
       <div className="list-books">
         <div className="list-books-title">
