@@ -13,8 +13,9 @@ class BooksApp extends Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     books: [],
-    showSearchPage: false,
-    searchQuery: ''
+    searchQuery: '',
+    searchResults: [],
+    showSearchPage: false
   }
 
   componentDidMount() {
@@ -26,6 +27,7 @@ class BooksApp extends Component {
       })
   }
 
+ // todo - doesn't update every time.
   moveBook = (id, shelf) => {
     BooksAPI.get(id)
       .then((book) => {
@@ -45,14 +47,25 @@ class BooksApp extends Component {
     this.setState(() => ({
       [name] : value
     }))
+    this.findBooks(value) //todo maybe handle differently
+  }
+
+  //todo - doesn't work all the time // figure out "empty query error"
+  findBooks = (query) => {
+    BooksAPI.search(query)
+      .then((results) => {
+        console.log(results)
+        debugger
+          this.setState(() => ({
+            searchResults: results
+          }))
+        }
+      )
   }
 
   render() {
-    const { searchQuery, books } = this.state
-    const displayBooks = searchQuery === '' ? [] : books.filter((book) => {
-      return book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            book.authors.toString().toLowerCase().includes(searchQuery.toLowerCase())
-    })
+    const { searchQuery, books, searchResults } = this.state
+    const displayBooks = searchQuery === '' ? [] : searchResults
 
     return (
       <div className="app">
@@ -96,7 +109,7 @@ class BooksApp extends Component {
         ) : (
           <div>
             <ListBooks
-              books={this.state.books}
+              books={books}
               onMoveBook={this.moveBook}
             />
             <div className="open-search">
