@@ -27,19 +27,22 @@ class BooksApp extends Component {
       })
   }
 
- // todo - doesn't update every time.
-  moveBook = (id, shelf) => {
-    BooksAPI.get(id)
+  moveBook = (book_id, shelf) => {
+    BooksAPI.get(book_id)
       .then((book) => {
         BooksAPI.update(book, shelf)
-        .then(
-        BooksAPI.getAll()
-          .then((books) => {
-            this.setState(() => ({
-              books
-            }))
-          }))
-      })
+        .then((shelves) => {
+            let books = [...this.state.books]
+            const index = this.state.books.findIndex((book) => book.id === book_id);
+            if (index !== -1) {
+              books[index]['shelf'] = shelf;
+            } else{
+              book['shelf'] = shelf
+              books = [...books, book]
+            }
+            this.setState({books});
+        })
+    })
   }
 
   handleChange = (event) => {
@@ -95,6 +98,7 @@ class BooksApp extends Component {
             </div>
             <div className="search-books-results">
               <ol className="books-grid">
+                {console.log('displayBooks', displayBooks)}
                 {displayBooks.map(book => (
                   <Book
                     key = {book.id}
