@@ -68,6 +68,7 @@ class BooksApp extends Component {
   render() {
     const { searchQuery, books, searchResults } = this.state
     const displayBooks = searchQuery === '' ? [] : searchResults
+    const noImgURL = 'https://books.google.com/googlebooks/images/no_cover_thumb.gif'
 
     return (
       <div className="app">
@@ -99,7 +100,7 @@ class BooksApp extends Component {
                     key = {book.id}
                     id = {book.id}
                     shelf={book.shelf}
-                    cover={`url(${book.imageLinks.thumbnail})`}
+                    cover={`url(${book.imageLinks === undefined ? noImgURL : book.imageLinks.thumbnail})`}
                     title={book.title}
                     authors={book.authors}
                     onMoveBook={this.moveBook}
