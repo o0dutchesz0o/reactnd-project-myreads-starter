@@ -50,17 +50,19 @@ class BooksApp extends Component {
     this.findBooks(value) //todo maybe handle differently
   }
 
-  //todo - doesn't work all the time // figure out "empty query error"
   findBooks = (query) => {
     BooksAPI.search(query)
       .then((results) => {
-        console.log(results)
-        debugger
-          this.setState(() => ({
-            searchResults: results
-          }))
-        }
-      )
+        let valid_results = true
+          if (results === undefined) {
+            valid_results = false
+          } else if (results.error === 'empty query') {
+            valid_results = false
+          }
+        this.setState(() => ({
+          searchResults: valid_results ? results : []
+        }))
+      })
   }
 
   render() {
