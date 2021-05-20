@@ -50,7 +50,7 @@ class BooksApp extends Component {
     this.setState(() => ({
       [name] : value
     }))
-    this.findBooks(value) //todo maybe handle differently
+    this.findBooks(value)
   }
 
   findBooks = (query) => {
@@ -62,6 +62,16 @@ class BooksApp extends Component {
           } else if (results.error === 'empty query') {
             valid_results = false
           }
+        if (valid_results) {
+            results.forEach(result => {
+              result['shelf'] = 'none';
+              const found_book = this.state.books.find(book => book.id === result.id)
+              if (found_book !== undefined) {
+                result['shelf'] = found_book['shelf']
+              }
+            })
+        }
+
         this.setState(() => ({
           searchResults: valid_results ? results : []
         }))
