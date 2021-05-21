@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 class SearchBooks extends Component {
   render() {
-    const noImgURL = 'https://books.google.com/googlebooks/images/no_cover_thumb.gif'
+    const { searchQuery, onHandleChange, displayBooks, onMoveBook, noImgURL } = this.props
 
     return (
       <div className="search-books">
@@ -24,15 +24,15 @@ class SearchBooks extends Component {
                 */}
             <input type="text"
                    name='searchQuery'
-                   value={this.props.searchQuery}
+                   value={searchQuery}
                    placeholder="Search by title or author"
-                   onChange={this.props.onHandleChange}
+                   onChange={onHandleChange}
             />
           </div>
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.props.displayBooks.map(book => (
+            {displayBooks.map(book => (
               <Book
                 key = {book.id}
                 id = {book.id}
@@ -40,7 +40,7 @@ class SearchBooks extends Component {
                 cover={`url(${book.imageLinks === undefined ? noImgURL : book.imageLinks.thumbnail})`}
                 title={book.title}
                 authors={book.authors}
-                onMoveBook={this.moveBook}
+                onMoveBook={onMoveBook}
               />
             ))}
           </ol>

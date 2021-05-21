@@ -75,6 +75,7 @@ class BooksApp extends Component {
   render() {
     const { searchQuery, books, searchResults } = this.state
     const displayBooks = searchQuery === '' ? [] : searchResults
+    const noImgURL = 'https://books.google.com/googlebooks/images/no_cover_thumb.gif'
 
     return (
       <div className="app">
@@ -83,6 +84,7 @@ class BooksApp extends Component {
             <ListBooks
               books={books}
               onMoveBook={this.moveBook}
+              noImgURL={noImgURL}
             />
             <div className="open-search">
               <Link
@@ -92,11 +94,13 @@ class BooksApp extends Component {
           </div>
         )}/>
 
-        <Route path='/search' render={( {history}) => (
+        <Route path='/search' render={() => (
           <SearchBooks
+            displayBooks={displayBooks}
+            noImgURL={noImgURL}
             searchQuery={this.state.searchQuery}
             onHandleChange={this.handleChange}
-            displayBooks={displayBooks}
+            onMoveBook={this.moveBook}
           />
         )}/>
       </div>

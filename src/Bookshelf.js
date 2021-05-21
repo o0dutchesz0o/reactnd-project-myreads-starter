@@ -3,7 +3,7 @@ import Book from "./Book";
 
 class Bookshelf extends Component {
   render() {
-    const { title, books, shelf, onMoveBook } = this.props
+    const { title, books, shelf, onMoveBook, noImgURL } = this.props
     return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{title}</h2>
@@ -14,7 +14,7 @@ class Bookshelf extends Component {
               key = {book.id}
               id = {book.id}
               shelf={shelf}
-              cover={`url(${book.imageLinks.thumbnail})`}
+              cover={`url(${book.imageLinks === undefined ? noImgURL : book.imageLinks.thumbnail})`}
               title={book.title}
               authors={book.authors}
               onMoveBook={onMoveBook}
